@@ -1,20 +1,14 @@
 {
   "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2021
-  },
   "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended",
+    "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "semi": [1, "always"],
+    "semi": ["warn", "always"],
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-explicit-any": "error",
     "prefer-const": ["warn"]

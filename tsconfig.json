@@ -25,7 +25,12 @@
     "lib": ["ES2020", "DOM"],
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "types": ["jest"]
+    "types": ["jest"],
+    "baseUrl": "./src",
+    "paths": {
+      "@models/*": ["models/*"],
+      "@filters/*": ["filters/*"]
+    }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
