@@ -2,7 +2,7 @@ name: 'Continuous Integrations'
 
 on:
   push:
-    branches: ['main']
+    branches: ['release']
 
 jobs:
   lint:
@@ -12,12 +12,11 @@ jobs:
       - name: 'Checkout the repository'
         uses: 'actions/checkout@v3'
 
-      - name: 'Setup Node.js and npm'
+      - name: 'Setup Node.js and yarn'
         uses: './.github/actions/setup'
 
       - name: 'Execute the lint script'
-        run: 'npm run lint'
-
+        run: 'yarn lint'
 
   test:
     name: 'Run unit tests with Jest'
@@ -26,11 +25,11 @@ jobs:
       - name: 'Checkout the repository'
         uses: 'actions/checkout@v3'
 
-      - name: 'Setup Node.js and npm'
+      - name: 'Setup Node.js and yarn'
         uses: './.github/actions/setup'
 
       - name: 'Execute the test script'
-        run: 'npm run test'
+        run: 'yarn test'
 
   bundle:
     name: 'Bundle package with Rollup.js'
@@ -39,8 +38,8 @@ jobs:
       - name: 'Checkout the repository'
         uses: 'actions/checkout@v3'
 
-      - name: 'Setup Node.js and npm'
+      - name: 'Setup Node.js and yarn'
         uses: './.github/actions/setup'
 
       - name: 'Execute the build script'
-        run: 'npm run build'
+        run: 'yarn build'
