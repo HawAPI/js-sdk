@@ -1,0 +1,33 @@
+{
+  "name": "@hawapi/js-sdk",
+  "description": "HawAPI SDK for JavaScript",
+  "version": "1.0.0-beta.0",
+  "repository": "git@github.com:HawAPI/js-sdk.git",
+  "author": {
+    "name": "Lucas Josino",
+    "email": "contact@lucasjosino.com",
+    "url": "https://lucasjosino.com "
+  },
+  "homepage": "https://github.com/HawAPI/",
+  "bugs": {
+    "url": "https://github.com/HawAPI/js-sdk/issues",
+    "email": "hawapi@lucasjosino.com"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "hawapi",
+    "hawapi-js-sdk",
+    "haw-api",
+    "stranger-things",
+    "stranger-things-api"
+  ],
+  "devDependencies": {
+    "typescript": "^4.1.2",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.8.1"
+  }
+}
