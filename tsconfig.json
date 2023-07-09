@@ -29,7 +29,8 @@
     "paths": {
       "@models/*": ["models/*"],
       "@utils/*": ["utils/*"],
-      "@enums/*": ["enums/*"]
+      "@enums/*": ["enums/*"],
+      "@filters/*": ["filters/*"]
     }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
