@@ -1,7 +1,7 @@
 {
   "name": "@hawapi/js-sdk",
   "description": "HawAPI SDK for JavaScript",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "repository": "git@github.com:HawAPI/js-sdk.git",
   "author": {
     "name": "Lucas Josino",
@@ -28,6 +28,10 @@
   "module": "dist/index.esm.js",
   "jsdelivr": "dist/index.umd.js",
   "umd:main": "dist/index.umd.js",
+  "files": [
+    "dist/",
+    "types/"
+  ],
   "exports": {
     ".": [
       {
@@ -44,8 +48,9 @@
     "lint:fix": "eslint \"*/**/*.{ts,js,json}\" --fix",
     "clear": "rm -rf ./dist/",
     "build": "yarn clear && rollup --config ./rollup.config.mjs",
-    "pre-publish": "yarn lint && yarn test && yarn build",
-    "pre-publish-wot": "yarn lint && yarn build"
+    "publish": "yarn lint && yarn test && yarn npm publish --access public",
+    "publish:dry": "yarn lint && yarn test && yarn build",
+    "publish:dry-wot": "yarn lint && yarn build"
   },
   "devDependencies": {
     "@types/eslint": "^8.4.10",
