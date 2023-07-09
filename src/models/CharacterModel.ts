@@ -1,6 +1,6 @@
-import type BaseModel from "@models/base/BaseModel";
+import type BaseModel from '@models/base/BaseModel';
 
-interface CharacterModel extends BaseModel {
+export interface CharacterModel extends BaseModel {
   first_name: string;
   last_name: string;
   nicknames: string[];
@@ -8,8 +8,5 @@ interface CharacterModel extends BaseModel {
   death_date: string;
   gender: number;
   actor: string;
-  thumbnail: string;
   images: string[];
 }
-
-export default CharacterModel;

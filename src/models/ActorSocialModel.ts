@@ -1,8 +1,5 @@
-interface ActorSocialModel {
-    social: string;
-    handle: string;
-    url: string;
-    actor_uuid: string;
+export interface ActorSocialModel {
+  social: string;
+  handle: string;
+  url: string;
 }
-
-export default ActorSocialModel;

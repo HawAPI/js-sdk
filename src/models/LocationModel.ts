@@ -1,10 +1,9 @@
-import type BaseModel from "@models/base/BaseModel";
+import type BaseModel from '@models/base/BaseModel';
 
-interface LocationModel extends BaseModel {
-    name: string;
-    description: string;
-    thumbnail: string;
-    images: string[],
+export interface LocationModel extends BaseModel {
+  name: string;
+  description: string;
+  language: string;
+  images: string[];
+  languages: string[];
 }
-
-export default LocationModel;

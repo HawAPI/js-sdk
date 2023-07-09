@@ -1,14 +1,21 @@
-import type BaseModel from "@models/base/BaseModel";
+import type BaseModel from '@models/base/BaseModel';
 
-interface GameModel extends BaseModel {
-    name: string;
-    platforms: string[];
-    genres: string[];
-    publishers: string[];
-    developers: string[];
-    url: string,
-    trailer: string,
-    thumbnail: string;
+export interface GameModel extends BaseModel {
+  name: string;
+  description: string;
+  language: string;
+  playtime: number;
+  age_rating: string;
+  platforms: string[];
+  stores: string[];
+  modes: string[];
+  genres: string[];
+  publishers: string[];
+  developers: string[];
+  release_date: string;
+  website: string;
+  tags: string[];
+  languages: string[];
+  trailer: string;
+  images: string[];
 }
-
-export default GameModel;

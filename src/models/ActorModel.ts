@@ -1,7 +1,7 @@
-import type ActorSocialModel from "@models/ActorSocialModel";
-import type BaseModel from "@models/base/BaseModel";
+import type { ActorSocialModel } from '@models/ActorSocialModel';
+import type BaseModel from '@models/base/BaseModel';
 
-interface ActorModel extends BaseModel {
+export interface ActorModel extends BaseModel {
   first_name: string;
   last_name: string;
   nicknames: string[];
@@ -10,11 +10,8 @@ interface ActorModel extends BaseModel {
   gender: number;
   nationality: string;
   seasons: string[];
-  awards: string[];
-  socials: ActorSocialModel[];
+  awards?: string[];
   character: string;
-  thumbnail: string;
+  socials?: ActorSocialModel[];
   images: string[];
 }
-
-export default ActorModel;
