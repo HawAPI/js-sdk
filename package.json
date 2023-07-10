@@ -46,9 +46,10 @@
     "test": "jest",
     "lint": "eslint \"*/**/*.{ts,js,json}\"",
     "lint:fix": "eslint \"*/**/*.{ts,js,json}\" --fix",
-    "clear": "rm -rf ./dist/",
-    "build": "yarn clear && rollup --config ./rollup.config.mjs",
-    "publish": "yarn lint && yarn test && yarn npm publish --access public",
+    "clear": "rm -rf ./dist/ && rm -rf ./types/",
+    "build": "yarn clear && yarn build:types && rollup --config ./rollup.config.mjs",
+    "build:types": "yarn tsc -p tsconfig.bundle.json",
+    "publish": "yarn lint && yarn test && yarn build && yarn npm publish --access public",
     "publish:dry": "yarn lint && yarn test && yarn build",
     "publish:dry-wot": "yarn lint && yarn build"
   },
