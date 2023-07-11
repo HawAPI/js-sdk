@@ -69,7 +69,7 @@ export default class HawAPIClient {
     filters?: Filters | null,
     pageable?: Pageable | null
   ): Promise<T[]> {
-    return this._fetch(target, filters, pageable);
+    return this._fetch(Endpoints[target], filters, pageable);
   }
 
   /**
@@ -82,7 +82,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<T> {
-    return this._fetch(`/${target}/${uuid}`);
+    return this._fetch(`/${Endpoints[target]}/${uuid}`);
   }
 
   /**
@@ -94,7 +94,7 @@ export default class HawAPIClient {
   public async getRandom<T extends BaseModel>(
     target: EndpointType
   ): Promise<T> {
-    return this._fetch(`/${target}/random`);
+    return this._fetch(`/${Endpoints[target]}/random`);
   }
 
   /**
@@ -107,7 +107,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<T[]> {
-    return this._fetch(`/${target}/${uuid}/translations`);
+    return this._fetch(`/${Endpoints[target]}/${uuid}/translations`);
   }
 
   /**
@@ -122,7 +122,7 @@ export default class HawAPIClient {
     uuid: string,
     language: string
   ): Promise<T> {
-    return this._fetch(`${target}/${uuid}/translations/${language}`);
+    return this._fetch(`${Endpoints[target]}/${uuid}/translations/${language}`);
   }
 
   /**
@@ -135,7 +135,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<T> {
-    return this._fetch(`/${target}/${uuid}/translations/random`);
+    return this._fetch(`/${Endpoints[target]}/${uuid}/translations/random`);
   }
 
   /**
@@ -166,11 +166,8 @@ export default class HawAPIClient {
    * @param uuid
    * @returns
    */
-  public async getRandomSocial(
-    target: EndpointType,
-    uuid: string
-  ): Promise<ActorSocialModel> {
-    return this._fetch(`/${target}/${uuid}/socials/random`);
+  public async getRandomSocial(uuid: string): Promise<ActorSocialModel> {
+    return this._fetch(`/${Endpoints.actor}/${uuid}/socials/random`);
   }
 
   /**
@@ -185,11 +182,11 @@ export default class HawAPIClient {
     pageable?: Pageable | null
   ) {
     const url = this._getUrl(target, filters, pageable);
+    const response = await fetch(url, this.request);
     try {
-      const response = await fetch(url, this.request);
       return await response.json();
     } catch (err) {
-      return await this._handleError(err as Response);
+      return await this._handleError(response);
     }
   }
 
