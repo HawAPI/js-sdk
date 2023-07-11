@@ -176,17 +176,29 @@ export default class HawAPIClient {
    * @param filters
    * @returns
    */
-  private async _fetch(
+  private async _fetch<T>(
     target: string,
     filters?: Filters | null,
     pageable?: Pageable | null
-  ) {
+  ): Promise<T> {
     const url = this._getUrl(target, filters, pageable);
-    const response = await fetch(url, this.request);
+
+    let timeout;
+    const controller = new AbortController();
+    if (this.options.timeout) {
+      timeout = setTimeout(() => controller.abort(), this.options.timeout);
+    }
+
+    const response = await fetch(url, {
+      ...this.request,
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
     try {
       return await response.json();
     } catch (err) {
-      return await this._handleError(response);
+      throw await this._handleError(response);
     }
   }
 
@@ -194,10 +206,10 @@ export default class HawAPIClient {
    * Method to handle any request error
    * @param err The request error response
    */
-  private async _handleError(err: Response) {
+  private async _handleError(err: Response): Promise<RequestError> {
     const isJson = err.headers.get('Content-Type') == 'application/json';
 
-    if (isJson) throw (await err.json()) as RequestError;
+    if (isJson) return (await err.json()) as RequestError;
 
     throw new Error(await err.text());
   }
