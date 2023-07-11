@@ -10,8 +10,7 @@ export { HawAPIOptions };
  * Docs: https://hawapi.theproject.id/docs \
  * Github: https://github.com/HawAPI/js-sdk
  *
- * Examples
- *
+ * @example
  * - Javascript (UMD)
  * ```js
  *  const client = HawAPI.createClient()
@@ -22,6 +21,7 @@ export { HawAPIOptions };
  *  console.log('HawAPI client: ', client)
  * ```
  *
+ * @example
  * - Javascript (ESM)
  * ```js
  *  import { createClient } from '<REF>'
@@ -29,6 +29,8 @@ export { HawAPIOptions };
  *
  *  console.log('HawAPI client: ', client)
  * ```
+ *
+ * See more samples: https://github.com/HawAPI/js-sdk/tree/main/samples
  *
  * @param options Endpoint, version, token, etc.. configurations
  * @returns A new HawAPI Client
