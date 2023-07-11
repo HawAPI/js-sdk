@@ -1,4 +1,4 @@
-interface RequestError {
+export interface RequestError {
   code: number;
   status: string;
   method: string;
@@ -8,5 +8,3 @@ interface RequestError {
   url: string;
   params: string;
 }
-
-export default RequestError;

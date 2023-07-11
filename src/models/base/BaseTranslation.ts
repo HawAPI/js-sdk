@@ -1,5 +1,3 @@
-interface BaseTranslation {
+export interface BaseTranslation {
   language: string;
 }
-
-export default BaseTranslation;

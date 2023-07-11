@@ -25,13 +25,7 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "types": ["jest"],
-    "baseUrl": "./src",
-    "paths": {
-      "@models/*": ["models/*"],
-      "@utils/*": ["utils/*"],
-      "@enums/*": ["enums/*"],
-      "@filters/*": ["filters/*"]
-    }
+    "baseUrl": "./src"
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

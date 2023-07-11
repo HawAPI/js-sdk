@@ -1,7 +1,7 @@
 /**
  * The HawAPI page options.
  */
-export default class Pageable {
+export class Pageable {
   /**
    * The request page
    *

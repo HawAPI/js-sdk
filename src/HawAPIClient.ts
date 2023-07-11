@@ -1,12 +1,13 @@
-import { EndpointType, Endpoints } from '@enums/EndpointType';
-import { Filters } from '@filters/Filters';
-import Pageable from '@filters/Pageable';
-import APIInfoModel from '@models/APIInfoModel';
-import { ActorSocialModel } from '@models/ActorSocialModel';
-import BaseModel from '@models/base/BaseModel';
-import BaseTranslation from '@models/base/BaseTranslation';
-import HawAPIOptions from 'HawAPIOptions';
-import RequestError from 'exceptions/RequestError';
+import HawAPIOptions from './HawAPIOptions';
+import { EndpointType, Endpoints } from './enums/EndpointType';
+import { RequestError } from './exceptions/RequestError';
+import { Filters, Pageable } from './filters';
+import {
+  APIInfoModel,
+  ActorSocialModel,
+  BaseModel,
+  BaseTranslation,
+} from './models';
 
 /**
  * The HawAPI client.

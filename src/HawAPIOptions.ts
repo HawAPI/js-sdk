@@ -1,4 +1,4 @@
-import { API_DEFAULT_LANG, API_URL, API_VERSION } from 'Constants';
+import { API_DEFAULT_LANG, API_URL, API_VERSION } from './Constants';
 
 /**
  * The HawAPI options configuration.

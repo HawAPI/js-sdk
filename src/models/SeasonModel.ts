@@ -1,4 +1,4 @@
-import type BaseModel from '@models/base/BaseModel';
+import { BaseModel } from './base/BaseModel';
 
 export interface SeasonModel extends BaseModel {
   title: string;

@@ -1,4 +1,4 @@
-import BaseTranslation from '@models/base/BaseTranslation';
+import { BaseTranslation } from '../base/BaseTranslation';
 
 export interface SeasonTranslation extends BaseTranslation {
   title: string;

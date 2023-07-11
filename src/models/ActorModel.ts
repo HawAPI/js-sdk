@@ -1,5 +1,5 @@
-import type { ActorSocialModel } from '@models/ActorSocialModel';
-import type BaseModel from '@models/base/BaseModel';
+import { ActorSocialModel } from './ActorSocialModel';
+import { BaseModel } from './base/BaseModel';
 
 export interface ActorModel extends BaseModel {
   first_name: string;

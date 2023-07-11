@@ -1,7 +1,12 @@
-import HawAPIClient from 'HawAPIClient';
-import HawAPIOptions from 'HawAPIOptions';
+import HawAPIClient from './HawAPIClient';
+import HawAPIOptions from './HawAPIOptions';
 
-export { HawAPIOptions };
+export { HawAPIClient, HawAPIOptions };
+
+export * from './enums';
+export * from './exceptions';
+export * from './filters';
+export * from './models';
 
 /**
  * Creates a new HawAPI client.

@@ -1,4 +1,4 @@
-interface APIInfoModel {
+export interface APIInfoModel {
   title: string;
   description: string;
   version: string;
@@ -13,5 +13,3 @@ interface APIInfoModel {
   license: string;
   license_url: string;
 }
-
-export default APIInfoModel;
