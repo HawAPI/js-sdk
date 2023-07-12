@@ -1,3 +1,5 @@
+import { OrderType } from '../enums';
+
 /**
  * The HawAPI page options.
  */
@@ -24,13 +26,15 @@ export class Pageable {
   /**
    * The order of items inside each page
    *
+   * **Note: Order will only be applied if {@link size} is defined**
+   *
    * Options:
    *  - Ascending (ASC)
    *  - Descending (DESC)
    *
-   * @default 'ASC'
+   * @default 'asc'
    */
-  order?: string = 'ASC';
+  order?: OrderType = 'asc';
 
   constructor(pageable: Pageable = {}) {
     this.page = 0;

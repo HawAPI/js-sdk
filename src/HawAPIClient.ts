@@ -246,33 +246,38 @@ export default class HawAPIClient {
    * @param target
    * @param filters
    * @param pageable
-   * @returns
+   * @returns A complete url path with all params and filters
    */
   private _getUrl(
     target: string,
     filters?: Filters | null,
     pageable?: Pageable | null
   ) {
-    let params = '';
+    let params = '?';
 
     // Get all filters names and values
     if (filters) {
-      params = '?';
-
       for (const key in filters) {
         params += `${key}=${filters[key]}&`;
       }
-
-      params = params.slice(0, -1);
     }
 
     // Define the page, sort and order
     if (pageable) {
-      params += '?';
+      if (pageable.page) params += `page=${pageable.page}&`;
+      if (pageable.size) params += `size=${pageable.size}&`;
 
-      params = params.slice(0, -1);
+      // 'Order' can only be applied when 'sort' is defined
+      if (pageable.sort) {
+        if (pageable.order) {
+          params += `sort=${pageable.sort},${pageable.order}&`;
+        } else {
+          params += `sort=${pageable.sort}&`;
+        }
+      }
     }
 
+    params = params.slice(0, -1);
     return this.options.endpoint + `/${this.options.version}${target}${params}`;
   }
 
