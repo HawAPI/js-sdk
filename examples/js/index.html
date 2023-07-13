@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HawAPI | Showcase</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <main>
+        <h1>HawAPI</h1>
+        <h3>Ping: <span id="ping"></span></h3>
+        <div class="selector">
+            <select name="models" id="models">
+                <option disabled selected value="select">Select model</option>
+                <option value="episode">Episodes</option>
+                <option value="actor">Actors</option>
+                <option value="character">Characters</option>
+                <option value="game">Games</option>
+                <option value="location">Locations</option>
+                <option value="season">Seasons</option>
+                <option value="soundtrack">Soundtracks</option>
+            </select>
+            <select name="items" id="items">
+                <option disabled selected value="select">Select item</option>
+            </select>
+            <span id="request">GET /api/v1/</span>
+        </div>
+        <div class="space">
+            <code id="code"></code>
+        </div>
+    </main>
+    <script src="../dist/umd/index.umd.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
