@@ -43,7 +43,7 @@ export default class HawAPIClient {
 
   /**
    * Method to test API connection
-   * @returns 'Ping' if connection is open
+   * @returns If connected. An {@link string} with 'Ping' value
    */
   public async ping(): Promise<string> {
     return fetch(this.options.endpoint + '/ping', this.request)
@@ -55,7 +55,7 @@ export default class HawAPIClient {
 
   /**
    * Method to get all API informations
-   * @returns
+   * @returns An new {@link APIInfoModel}
    */
   public async getInfo(): Promise<APIInfoModel> {
     return fetch(`${this.options.endpoint}`, this.request)
@@ -66,11 +66,22 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
+   * Method to get all client options
+   * @returns
+   */
+  public async getOptions(): Promise<HawAPIOptions> {
+    return {
+      ...this.options,
+      token: '',
+    };
+  }
+
+  /**
+   * Method that get all items
+   * @param target The target name
    * @param filters
    * @param pageable
-   * @returns
+   * @returns An new {@link RequestResult} with all target items
    */
   public async getAll<T extends BaseModel>(
     target: EndpointType,
@@ -81,10 +92,10 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
-   * @param uuid
-   * @returns
+   * Method that get a single item
+   * @param target The target name
+   * @param uuid The target uuid
+   * @returns An new {@link RequestResult} with specific target item
    */
   public async getBy<T extends BaseModel>(
     target: EndpointType,
@@ -94,10 +105,10 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
-   * @param uuid
-   * @returns
+   * Method that get a single random item
+   * @param target The target name
+   * @param uuid The target uuid
+   * @returns An new {@link RequestResult} with random target item
    */
   public async getRandom<T extends BaseModel>(
     target: EndpointType
@@ -106,10 +117,10 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
-   * @param uuid
-   * @returns
+   * Method that get all item translations
+   * @param target The target name
+   * @param uuid The target uuid
+   * @returns An new {@link RequestResult} with all target item translations
    */
   public async getAllTranslations<T extends BaseTranslation>(
     target: EndpointType,
@@ -119,11 +130,11 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
-   * @param uuid
-   * @param language
-   * @returns
+   * Method that get a single item
+   * @param target The target name
+   * @param uuid The target uuid
+   * @param language The target translation language
+   * @returns An new {@link RequestResult} with specific target item translation
    */
   public async getTranslationBy<T extends BaseTranslation>(
     target: EndpointType,
@@ -134,10 +145,10 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
-   * @param uuid
-   * @returns
+   * Method that get a single random item translation
+   * @param target The target name
+   * @param uuid The target uuid
+   * @returns An new {@link RequestResult} with random target item translation
    */
   public async getRandomTranslation<T extends BaseModel>(
     target: EndpointType,
@@ -147,9 +158,9 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param uuid
-   * @returns
+   * Method that get all actor socials
+   * @param uuid The actor uuid
+   * @returns An new {@link RequestResult} with all actor socials
    */
   public async getAllSocials(
     uuid: string
@@ -158,10 +169,10 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param uuid
-   * @param social
-   * @returns
+   * Method that get a single actor social
+   * @param uuid The actor uuid
+   * @param social The social name
+   * @returns An new {@link RequestResult} with an specific actor social
    */
   public async getSocialBy(
     uuid: string,
@@ -171,10 +182,9 @@ export default class HawAPIClient {
   }
 
   /**
-   *
-   * @param target
-   * @param uuid
-   * @returns
+   * Method that get a single random actor social
+   * @param uuid The actor uuid
+   * @returns An new {@link RequestResult} with random social
    */
   public async getRandomSocial(
     uuid: string
@@ -318,7 +328,7 @@ export default class HawAPIClient {
    * @param page The current page index
    * @param increase Determine if page index will be increase or decrease
    * @returns Updated page index
-   * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less then 0
+   * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less than 0
    */
   private _handlePage(page: number, increase: boolean): number {
     if (page < 0) throw new Error('Page index cannot be nagative');
