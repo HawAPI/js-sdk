@@ -1,14 +1,14 @@
-import type BaseModel from "@models/base/BaseModel";
+import { BaseModel } from './base/BaseModel';
 
-interface EpisodeModel extends BaseModel {
-    title: string;
-    description: string;
-    duration: number,
-    episode_num: number,
-    next_episode: string,
-    prev_episode: string,
-    season: string,
-    thumbnail: string;
+export interface EpisodeModel extends BaseModel {
+  title: string;
+  description: string;
+  language: string;
+  duration: number;
+  episode_num: number;
+  next_episode: string;
+  prev_episode: string;
+  season: string;
+  images: string[];
+  languages: string[];
 }
-
-export default EpisodeModel;

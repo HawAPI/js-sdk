@@ -1,13 +1,10 @@
-import type BaseModel from "@models/base/BaseModel";
+import { BaseModel } from './base/BaseModel';
 
-interface SoundtrackModel extends BaseModel {
-    name: string;
-    duration: number;
-    artist: string;
-    album: string;
-    release_data: string;
-    urls: string[],
-    thumbnail: string;
+export interface SoundtrackModel extends BaseModel {
+  name: string;
+  duration: number;
+  artist: string;
+  album: string;
+  release_date: string;
+  urls: string[];
 }
-
-export default SoundtrackModel;

@@ -51,23 +51,23 @@ const options = {
       format: 'commonjs',
     }),
     createOutputOptions({
-      file: './dist/cjs/index.cjs',
+      file: './dist/index.cjs',
       format: 'commonjs',
     }),
     createOutputOptions({
-      file: './dist/esm/index.mjs',
+      file: './dist/index.mjs',
       format: 'esm',
     }),
     createOutputOptions({
-      file: './dist/esm/index.esm.js',
+      file: './dist/index.esm.js',
       format: 'esm',
     }),
     createOutputOptions({
-      file: './dist/umd/index.umd.js',
+      file: './dist/index.umd.js',
       format: 'umd',
     }),
     createOutputOptions({
-      file: './dist/umd/index.umd.min.js',
+      file: './dist/index.umd.min.js',
       format: 'umd',
       plugins: [terser()],
     }),
