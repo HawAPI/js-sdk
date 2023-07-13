@@ -49,7 +49,7 @@ export default class HawAPIClient {
     return fetch(this.options.endpoint + '/ping', this.request)
       .then((response) => response.text())
       .catch((err) => {
-        throw err.json();
+        throw err;
       });
   }
 
