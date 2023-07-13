@@ -57,7 +57,7 @@ export default class HawAPIClient {
    * Method to get all API informations
    * @returns
    */
-  public async info(): Promise<APIInfoModel> {
+  public async getInfo(): Promise<APIInfoModel> {
     return fetch(`${this.options.endpoint}`, this.request)
       .then((response) => response.json())
       .catch((err) => {
