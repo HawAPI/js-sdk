@@ -6,7 +6,7 @@
   "author": {
     "name": "Lucas Josino",
     "email": "contact@lucasjosino.com",
-    "url": "https://lucasjosino.com "
+    "url": "https://lucasjosino.com"
   },
   "homepage": "https://github.com/HawAPI/",
   "bugs": {
@@ -47,7 +47,7 @@
     "lint:fix": "eslint \"*/**/*.{ts,js,json}\" --fix",
     "clear": "rm -rf ./dist/",
     "clear:docs": "rm -rf ./docs/",
-    "build": "yarn clear && yarn build:types && rollup --config ./rollup.config.mjs",
+    "build": "yarn clear && rollup --config ./rollup.config.mjs && yarn build:types",
     "build:doc": "typedoc src/index.ts",
     "build:types": "yarn tsc -p tsconfig.bundle.json",
     "publish": "yarn lint && yarn test && yarn build && yarn npm publish --access public",
