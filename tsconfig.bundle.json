@@ -3,7 +3,7 @@
   "compilerOptions": {
     // Type declaration settings.
     "declaration": true,
-    "declarationDir": "types/",
+    "declarationDir": "dist/types/",
     "emitDeclarationOnly": true
   },
   "exclude": ["./src/**/*.test.ts", "./src/**/*.test.tsx"]

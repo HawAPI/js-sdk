@@ -23,14 +23,13 @@
   ],
   "cdn": "dist/index.umd.js",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "unpkg": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "jsdelivr": "dist/index.umd.js",
   "umd:main": "dist/index.umd.js",
   "files": [
-    "dist/",
-    "types/"
+    "dist/"
   ],
   "exports": {
     ".": [
