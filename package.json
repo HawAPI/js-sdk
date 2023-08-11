@@ -46,8 +46,10 @@
     "test": "jest",
     "lint": "eslint \"*/**/*.{ts,js,json}\"",
     "lint:fix": "eslint \"*/**/*.{ts,js,json}\" --fix",
-    "clear": "rm -rf ./dist/ && rm -rf ./types/",
+    "clear": "rm -rf ./dist/",
+    "clear:docs": "rm -rf ./docs/",
     "build": "yarn clear && yarn build:types && rollup --config ./rollup.config.mjs",
+    "build:doc": "typedoc src/index.ts",
     "build:types": "yarn tsc -p tsconfig.bundle.json",
     "publish": "yarn lint && yarn test && yarn build && yarn npm publish --access public",
     "publish:dry": "yarn lint && yarn test && yarn build",
@@ -69,6 +71,8 @@
     "rollup-plugin-typescript2": "^0.34.1",
     "ts-jest": "^29.0.3",
     "ts-jest-resolver": "^2.0.0",
+    "typedoc": "^0.24.8",
+    "@mxssfd/typedoc-theme": "^1.1.2",
     "typescript": "^4.9.4"
   }
 }

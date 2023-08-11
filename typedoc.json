@@ -1,0 +1,8 @@
+{
+  "out": "./docs",
+  "name": "HawAPI",
+  "plugin": ["@mxssfd/typedoc-theme"],
+  "theme": "my-theme",
+  "readme": "none",
+  "tsconfig": "./tsconfig.bundle.json"
+}
