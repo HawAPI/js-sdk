@@ -2,7 +2,7 @@
 
 import { readFile } from 'node:fs/promises';
 
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import typescript2 from 'rollup-plugin-typescript2';
 
 const packageJSON = JSON.parse(await readFile('./package.json', 'utf-8'));
@@ -47,24 +47,24 @@ const options = {
   input: './src/index.ts',
   output: [
     createOutputOptions({
-      file: './dist/index.js',
+      file: './dist/index.min.js',
       format: 'commonjs',
+      plugins: [terser()],
     }),
     createOutputOptions({
-      file: './dist/index.cjs',
+      file: './dist/index.min.cjs',
       format: 'commonjs',
+      plugins: [terser()],
     }),
     createOutputOptions({
-      file: './dist/index.mjs',
+      file: './dist/index.min.mjs',
       format: 'esm',
+      plugins: [terser()],
     }),
     createOutputOptions({
-      file: './dist/index.esm.js',
+      file: './dist/index.esm.min.js',
       format: 'esm',
-    }),
-    createOutputOptions({
-      file: './dist/index.umd.js',
-      format: 'umd',
+      plugins: [terser()],
     }),
     createOutputOptions({
       file: './dist/index.umd.min.js',
