@@ -280,7 +280,10 @@ export default class HawAPIClient {
     // Get all filters names and values
     if (filters) {
       for (const key in filters) {
-        params += `${key}=${filters[key]}&`;
+        const value = filters[key];
+        if (value !== undefined && value !== null) {
+          params += `${key}=${value}&`;
+        }
       }
     }
 
@@ -323,12 +326,12 @@ export default class HawAPIClient {
     const language = headers.get(API_HEADER_CONTENT_LANGUAGE);
 
     return {
-      page: page ? Number(page) : null,
-      page_size: page_size ? Number(page_size) : null,
-      page_total: page_total ? Number(page_total) : null,
-      item_size: item_total ? Number(item_total) : null,
-      next_page: page ? this._handlePage(Number(page), true) : null,
-      prev_page: page ? this._handlePage(Number(page), false) : null,
+      page: Number(page) || null,
+      page_size: Number(page_size) || null,
+      page_total: Number(page_total) || null,
+      item_size: Number(item_total) || null,
+      next_page: this._handlePage(Number(page), true) || null,
+      prev_page: this._handlePage(Number(page), false) || null,
       language: language || null,
       status: status,
       data: body,
@@ -342,10 +345,10 @@ export default class HawAPIClient {
    * @returns Updated page index
    * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less than 0
    */
-  private _handlePage(page: number, increase: boolean): number {
-    if (page < 0) throw new Error('Page index cannot be nagative');
-    if (increase && page >= 0) return page + 1;
-    if (!increase && page > 0) return page - 1;
-    return page;
+  private _handlePage(page: number, increase: boolean): number | null {
+    if (page < 1) throw new Error('Page index cannot be zero or nagative');
+    if (increase) page = page + 1;
+    else page = page - 1;
+    return page == 0 ? null : page;
   }
 }
