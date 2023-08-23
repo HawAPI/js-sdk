@@ -66,6 +66,18 @@ export default class HawAPIClient {
   }
 
   /**
+   * Method that get the API overview
+   * @param target The target name
+   * @param language The result language
+   * @returns An new {@link RequestResult} with overview
+   */
+  public async getOverview<OverviewModel>(
+    language: string
+  ): Promise<RequestResult<OverviewModel>> {
+    return this._fetch(`/overview`, { language }, null);
+  }
+
+  /**
    * Method to get all client options
    * @returns
    */
