@@ -21,22 +21,22 @@
     "stranger-things",
     "stranger-things-api"
   ],
-  "cdn": "dist/index.umd.js",
-  "main": "dist/index.js",
+  "cdn": "dist/index.umd.min.js",
+  "main": "dist/index.min.js",
   "types": "dist/types/index.d.ts",
-  "unpkg": "dist/index.umd.js",
-  "module": "dist/index.esm.js",
-  "jsdelivr": "dist/index.umd.js",
-  "umd:main": "dist/index.umd.js",
+  "unpkg": "dist/index.umd.min.js",
+  "module": "dist/index.esm.min.js",
+  "jsdelivr": "dist/index.umd.min.js",
+  "umd:main": "dist/index.umd.min.js",
   "files": [
     "dist/"
   ],
   "exports": {
     ".": [
       {
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.cjs",
-        "default": "./dist/index.js"
+        "import": "./dist/index.min.mjs",
+        "require": "./dist/index.min.cjs",
+        "default": "./dist/index.min.js"
       },
       "./dist/index.js"
     ]
