@@ -1,10 +1,3 @@
-import {
-  API_HEADER_CONTENT_LANGUAGE,
-  API_HEADER_ITEM_TOTAL,
-  API_HEADER_PAGE_INDEX,
-  API_HEADER_PAGE_SIZE,
-  API_HEADER_PAGE_TOTAL,
-} from './Constants';
 import HawAPIOptions from './HawAPIOptions';
 import { InMemoryCacheManager } from './cache';
 import { EndpointType, Endpoints } from './enums/EndpointType';
@@ -16,6 +9,7 @@ import {
   BaseTranslation,
   RequestResult,
 } from './models';
+import { buildResult, buildUrl } from './utils';
 
 /**
  * The [HawAPI](https://github.com/HawAPI/HawAPI) js/ts client.
@@ -254,7 +248,7 @@ export default class HawAPIClient {
     filters?: Filters | null,
     pageable?: Pageable | null
   ): Promise<RequestResult<T>> {
-    const url = this._getUrl(target, filters, pageable);
+    const url = buildUrl(target, this.options, filters, pageable);
 
     const cache = await this.cache.get<T>(url);
     if (cache !== undefined) return { ...cache, cached: true };
@@ -276,7 +270,7 @@ export default class HawAPIClient {
       // Handle any possible not 2XX code
       if (!response.ok) throw new Error('Code is not OK (200)');
 
-      const result = this._buildResult<T>(
+      const result = buildResult<T>(
         await response.json(),
         response.headers,
         response.status
@@ -286,116 +280,12 @@ export default class HawAPIClient {
 
       return { ...result, cached: true };
     } catch (err) {
-      await this._handleError(response);
+      const isJson = response.headers.get('Content-Type') == 'application/json';
+
+      if (isJson) console.error(await response.json());
+      else console.error(await response.text());
+
       return {};
     }
-  }
-
-  /**
-   * Method to handle any request error
-   * @param err The request error response
-   */
-  private async _handleError(err: Response) {
-    const isJson = err.headers.get('Content-Type') == 'application/json';
-
-    if (isJson) return console.error(await err.json());
-
-    console.error(await err.text());
-  }
-
-  /**
-   * Method to create the url using API:
-   * - Url
-   * - Version
-   * - Target
-   * - Params
-   *   - Filters
-   *   - Pageable
-   *
-   * @param target
-   * @param filters
-   * @param pageable
-   * @returns A complete url path with all params and filters
-   */
-  private _getUrl(
-    target: string,
-    filters?: Filters | null,
-    pageable?: Pageable | null
-  ) {
-    let params = '?';
-
-    // Get all filters names and values
-    if (filters) {
-      for (const key in filters) {
-        const value = filters[key];
-        if (value !== undefined && value !== null) {
-          params += `${key}=${value}&`;
-        }
-      }
-    }
-
-    // Define the page, sort and order
-    if (pageable) {
-      if (pageable.page) params += `page=${pageable.page}&`;
-      if (pageable.size) params += `size=${pageable.size}&`;
-
-      // 'Order' can only be applied when 'sort' is defined
-      if (pageable.sort) {
-        if (pageable.order) {
-          params += `sort=${pageable.sort},${pageable.order}&`;
-        } else {
-          params += `sort=${pageable.sort}&`;
-        }
-      }
-    }
-
-    params = params.slice(0, -1);
-    return this.options.endpoint + `/${this.options.version}${target}${params}`;
-  }
-
-  /**
-   * Method to build the client response
-   * @param body The body response from API request
-   * @param headers The response header
-   * @param status The response status code
-   * @returns An new {@link RequestResult} with all required information
-   * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less then 0
-   */
-  private _buildResult<T>(
-    body: T,
-    headers: Headers,
-    status: number
-  ): RequestResult<T> {
-    const page = headers.get(API_HEADER_PAGE_INDEX);
-    const page_size = headers.get(API_HEADER_PAGE_SIZE);
-    const page_total = headers.get(API_HEADER_PAGE_TOTAL);
-    const item_total = headers.get(API_HEADER_ITEM_TOTAL);
-    const language = headers.get(API_HEADER_CONTENT_LANGUAGE);
-
-    return {
-      page: Number(page) || null,
-      page_size: Number(page_size) || null,
-      page_total: Number(page_total) || null,
-      item_size: Number(item_total) || null,
-      next_page: this._handlePage(Number(page), true) || null,
-      prev_page: this._handlePage(Number(page), false) || null,
-      language: language || null,
-      status: status,
-      data: body,
-    };
-  }
-
-  /**
-   * Method to handle the next/prev page index
-   * @param page The current page index
-   * @param increase Determine if page index will be increase or decrease
-   * @returns Updated page index
-   * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less than 0
-   */
-  private _handlePage(page: number, increase: boolean): number | null {
-    if (page == null || page <= 0) return null;
-    if (increase) page = page + 1;
-    else page = page - 1;
-    return page == 0 ? null : page;
   }
 }
