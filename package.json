@@ -1,11 +1,11 @@
 {
   "name": "@hawapi/js-sdk",
   "description": "HawAPI SDK for JavaScript",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0",
   "repository": "git@github.com:HawAPI/js-sdk.git",
   "author": {
     "name": "Lucas Josino",
-    "username": "@LucJosin",
+    "username": "LucJosin",
     "email": "contact@lucasjosino.com",
     "url": "https://lucasjosino.com"
   },
@@ -44,8 +44,8 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint \"*/**/*.{ts,js,json}\"",
-    "lint:fix": "eslint \"*/**/*.{ts,js,json}\" --fix",
+    "lint": "eslint \"*/**/*.{ts,js}\"",
+    "lint:fix": "eslint \"*/**/*.{ts,js}\" --fix",
     "clear": "rm -rf ./dist/",
     "clear:docs": "rm -rf ./docs/",
     "build": "yarn clear && rollup --config ./rollup.config.mjs && yarn build:types",

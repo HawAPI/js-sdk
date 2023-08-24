@@ -1,5 +1,5 @@
 {
-  "out": "./docs",
+  "out": "./docs/v1",
   "name": "HawAPI",
   "plugin": ["@mxssfd/typedoc-theme"],
   "theme": "my-theme",

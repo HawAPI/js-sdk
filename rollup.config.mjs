@@ -21,7 +21,7 @@ const banner = `/*!
  * Github (SDK): https://github.com/HawAPI/js-sdk
  * TypeDoc: https://hawapi.github.io/js-sdk/v1/
  * 
- * (c) ${packageJSON.author.name} (${packageJSON.author.username}) - ${packageJSON.author.url}
+ * (c) ${packageJSON.author.name} (@${packageJSON.author.username}) - ${packageJSON.author.url}
  * Released under the ${packageJSON.license} License.
  */
 `;
