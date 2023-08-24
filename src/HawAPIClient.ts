@@ -8,7 +8,6 @@ import {
 import HawAPIOptions from './HawAPIOptions';
 import { InMemoryCacheManager } from './cache/InMemoryCacheManager';
 import { EndpointType, Endpoints } from './enums/EndpointType';
-import { ResponseError } from './exceptions/ResponseError';
 import { Filters, Pageable } from './filters';
 import {
   APIInfoModel,
@@ -258,7 +257,7 @@ export default class HawAPIClient {
     const url = this._getUrl(target, filters, pageable);
 
     const cache = await this.cache.get<T>(url);
-    if (cache !== undefined) return cache;
+    if (cache !== undefined) return { ...cache, cached: true };
 
     // Setup timeout
     let timeout;
@@ -285,10 +284,10 @@ export default class HawAPIClient {
 
       await this.cache.set(url, result);
 
-      return result;
+      return { ...result, cached: true };
     } catch (err) {
-      console.error(err);
-      throw await this._handleError(response);
+      await this._handleError(response);
+      return {};
     }
   }
 
@@ -296,12 +295,12 @@ export default class HawAPIClient {
    * Method to handle any request error
    * @param err The request error response
    */
-  private async _handleError(err: Response): Promise<ResponseError> {
+  private async _handleError(err: Response) {
     const isJson = err.headers.get('Content-Type') == 'application/json';
 
-    if (isJson) return (await err.json()) as ResponseError;
+    if (isJson) return console.error(await err.json());
 
-    throw new Error(await err.text());
+    console.error(await err.text());
   }
 
   /**

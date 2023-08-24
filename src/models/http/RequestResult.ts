@@ -7,5 +7,6 @@ export interface RequestResult<T> {
   prev_page?: number | null;
   language?: string | null;
   status?: number | null;
+  cached?: boolean;
   data?: T;
 }
