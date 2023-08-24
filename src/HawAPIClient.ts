@@ -6,7 +6,7 @@ import {
   API_HEADER_PAGE_TOTAL,
 } from './Constants';
 import HawAPIOptions from './HawAPIOptions';
-import { InMemoryCacheManager } from './cache/InMemoryCacheManager';
+import { InMemoryCacheManager } from './cache';
 import { EndpointType, Endpoints } from './enums/EndpointType';
 import { Filters, Pageable } from './filters';
 import {
