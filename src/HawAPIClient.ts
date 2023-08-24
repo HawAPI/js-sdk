@@ -9,7 +9,7 @@ import {
   BaseTranslation,
   RequestResult,
 } from './models';
-import { buildResult, buildUrl } from './utils';
+import { Service } from './service';
 
 /**
  * The [HawAPI](https://github.com/HawAPI/HawAPI) js/ts client.
@@ -23,6 +23,7 @@ export default class HawAPIClient {
   cache: InMemoryCacheManager;
   headers: HeadersInit;
   request: RequestInit;
+  service: Service;
 
   constructor(options?: HawAPIOptions) {
     this.options = new HawAPIOptions(options);
@@ -39,6 +40,8 @@ export default class HawAPIClient {
 
     this.headers.set('Content-Type', 'application/json');
     this.request.headers = this.headers;
+
+    this.service = new Service(this.options, this.cache, this.request);
   }
 
   /**
@@ -118,7 +121,7 @@ export default class HawAPIClient {
   public async getOverview<OverviewModel>(
     language: string
   ): Promise<RequestResult<OverviewModel>> {
-    return this._fetch(`/overview`, { language }, null);
+    return this.service.fetch(`/overview`, { language }, null);
   }
 
   /**
@@ -133,7 +136,7 @@ export default class HawAPIClient {
     filters?: Filters | null,
     pageable?: Pageable | null
   ): Promise<RequestResult<T[]>> {
-    return this._fetch(`/${Endpoints[target]}`, filters, pageable);
+    return this.service.fetch(`/${Endpoints[target]}`, filters, pageable);
   }
 
   /**
@@ -146,7 +149,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T>> {
-    return this._fetch(`/${Endpoints[target]}/${uuid}`);
+    return this.service.fetch(`/${Endpoints[target]}/${uuid}`);
   }
 
   /**
@@ -158,7 +161,7 @@ export default class HawAPIClient {
   public async getRandom<T extends BaseModel>(
     target: EndpointType
   ): Promise<RequestResult<T>> {
-    return this._fetch(`/${Endpoints[target]}/random`);
+    return this.service.fetch(`/${Endpoints[target]}/random`);
   }
 
   /**
@@ -171,7 +174,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T[]>> {
-    return this._fetch(`/${Endpoints[target]}/${uuid}/translations`);
+    return this.service.fetch(`/${Endpoints[target]}/${uuid}/translations`);
   }
 
   /**
@@ -186,7 +189,9 @@ export default class HawAPIClient {
     uuid: string,
     language: string
   ): Promise<RequestResult<T>> {
-    return this._fetch(`${Endpoints[target]}/${uuid}/translations/${language}`);
+    return this.service.fetch(
+      `${Endpoints[target]}/${uuid}/translations/${language}`
+    );
   }
 
   /**
@@ -199,7 +204,9 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T>> {
-    return this._fetch(`/${Endpoints[target]}/${uuid}/translations/random`);
+    return this.service.fetch(
+      `/${Endpoints[target]}/${uuid}/translations/random`
+    );
   }
 
   /**
@@ -210,7 +217,7 @@ export default class HawAPIClient {
   public async getAllSocials(
     uuid: string
   ): Promise<RequestResult<ActorSocialModel[]>> {
-    return this._fetch(`/${Endpoints.actor}/${uuid}/socials`);
+    return this.service.fetch(`/${Endpoints.actor}/${uuid}/socials`);
   }
 
   /**
@@ -223,7 +230,7 @@ export default class HawAPIClient {
     uuid: string,
     social: string
   ): Promise<RequestResult<ActorSocialModel>> {
-    return this._fetch(`/${Endpoints.actor}/${uuid}/socials/${social}`);
+    return this.service.fetch(`/${Endpoints.actor}/${uuid}/socials/${social}`);
   }
 
   /**
@@ -234,58 +241,6 @@ export default class HawAPIClient {
   public async getRandomSocial(
     uuid: string
   ): Promise<RequestResult<ActorSocialModel>> {
-    return this._fetch(`/${Endpoints.actor}/${uuid}/socials/random`);
-  }
-
-  /**
-   * Method to fetch from HawAPI all resources
-   * @param target
-   * @param filters
-   * @returns An new {@link RequestResult} with body and header information
-   */
-  private async _fetch<T>(
-    target: string,
-    filters?: Filters | null,
-    pageable?: Pageable | null
-  ): Promise<RequestResult<T>> {
-    const url = buildUrl(target, this.options, filters, pageable);
-
-    const cache = await this.cache.get<T>(url);
-    if (cache !== undefined) return { ...cache, cached: true };
-
-    // Setup timeout
-    let timeout;
-    const controller = new AbortController();
-    if (this.options.timeout) {
-      timeout = setTimeout(() => controller.abort(), this.options.timeout);
-    }
-
-    const response = await fetch(url, {
-      ...this.request,
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeout);
-    try {
-      // Handle any possible not 2XX code
-      if (!response.ok) throw new Error('Code is not OK (200)');
-
-      const result = buildResult<T>(
-        await response.json(),
-        response.headers,
-        response.status
-      );
-
-      await this.cache.set(url, result);
-
-      return { ...result, cached: true };
-    } catch (err) {
-      const isJson = response.headers.get('Content-Type') == 'application/json';
-
-      if (isJson) console.error(await response.json());
-      else console.error(await response.text());
-
-      return {};
-    }
+    return this.service.fetch(`/${Endpoints.actor}/${uuid}/socials/random`);
   }
 }
