@@ -43,6 +43,13 @@ class HawAPIOptions {
    */
   token?: string;
 
+  /**
+   * Define if the package should save (in-memory) all request results
+   *
+   * @default true
+   */
+  inMemoryCache?: boolean = true;
+
   constructor(config: HawAPIOptions = {}) {
     this.endpoint = API_URL;
     this.version = API_VERSION;
@@ -58,6 +65,8 @@ class HawAPIOptions {
     if (config.timeout) this.timeout = config.timeout;
 
     if (config.token) this.token = config.token;
+
+    if (config.inMemoryCache) this.inMemoryCache = config.inMemoryCache;
   }
 }
 

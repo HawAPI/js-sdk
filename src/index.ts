@@ -11,9 +11,9 @@ export * from './models';
 /**
  * Creates a new HawAPI client.
  *
- * Website: https://hawapi.theproject.id \
- * Docs: https://hawapi.theproject.id/docs \
- * Github: https://github.com/HawAPI/js-sdk
+ * - [Github](https://github.com/HawAPI/js-sdk/)
+ * - [TypeDoc](https://hawapi.github.io/js-sdk/v1/)
+ * - [Examples (Github)](https://github.com/HawAPI/js-sdk/examples/)
  *
  * @example
  * - Javascript (UMD)
@@ -35,7 +35,7 @@ export * from './models';
  *  console.log('HawAPI client: ', client)
  * ```
  *
- * See more samples: https://github.com/HawAPI/js-sdk/tree/main/samples
+ * See more samples: https://github.com/HawAPI/js-sdk/tree/main/examples
  *
  * @param options Endpoint, version, token, etc.. configurations
  * @returns A new HawAPI Client

@@ -6,6 +6,7 @@ import {
   API_HEADER_PAGE_TOTAL,
 } from './Constants';
 import HawAPIOptions from './HawAPIOptions';
+import { InMemoryCacheManager } from './cache/InMemoryCacheManager';
 import { EndpointType, Endpoints } from './enums/EndpointType';
 import { ResponseError } from './exceptions/ResponseError';
 import { Filters, Pageable } from './filters';
@@ -18,15 +19,21 @@ import {
 } from './models';
 
 /**
- * The HawAPI client.
+ * The [HawAPI](https://github.com/HawAPI/HawAPI) js/ts client.
+ *
+ * - [TypeDoc](https://hawapi.github.io/js-sdk/v1/)
+ * - [Github](https://github.com/HawAPI/js-sdk/)
+ * - [Examples (Github)](https://github.com/HawAPI/js-sdk/examples/)
  */
 export default class HawAPIClient {
   options: HawAPIOptions;
+  cache: InMemoryCacheManager;
   headers: HeadersInit;
   request: RequestInit;
 
   constructor(options?: HawAPIOptions) {
     this.options = new HawAPIOptions(options);
+    this.cache = new InMemoryCacheManager(this.options.inMemoryCache!);
     this.headers = new Headers();
     this.request = {
       method: 'GET',
@@ -66,6 +73,50 @@ export default class HawAPIClient {
   }
 
   /**
+   * Method to get all client options
+   * @returns
+   */
+  public async getOptions(): Promise<HawAPIOptions> {
+    return {
+      ...this.options,
+      token: '',
+    };
+  }
+
+  /**
+   * Method to clear all cached data
+   * @returns The count of all cleaned data
+   */
+  public async clearCache(): Promise<number> {
+    return this.cache.clear();
+  }
+
+  /**
+   * Method to get all keys of cached data
+   * @returns All cached keys
+   */
+  async cacheKeys(): Promise<IterableIterator<string>> {
+    return this.cache.keys();
+  }
+
+  /**
+   * Method to get the size of cached data
+   * @returns The count of all cached data
+   */
+  async cacheSize(): Promise<number> {
+    return this.cache.size();
+  }
+
+  /**
+   * Method to remove specific cache data
+   * @param key The cache key
+   * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
+   */
+  async removeCache(key: string): Promise<boolean> {
+    return this.cache.remove(key);
+  }
+
+  /**
    * Method that get the API overview
    * @param target The target name
    * @param language The result language
@@ -75,17 +126,6 @@ export default class HawAPIClient {
     language: string
   ): Promise<RequestResult<OverviewModel>> {
     return this._fetch(`/overview`, { language }, null);
-  }
-
-  /**
-   * Method to get all client options
-   * @returns
-   */
-  public async getOptions(): Promise<HawAPIOptions> {
-    return {
-      ...this.options,
-      token: '',
-    };
   }
 
   /**
@@ -217,6 +257,9 @@ export default class HawAPIClient {
   ): Promise<RequestResult<T>> {
     const url = this._getUrl(target, filters, pageable);
 
+    const cache = await this.cache.get<T>(url);
+    if (cache !== undefined) return cache;
+
     // Setup timeout
     let timeout;
     const controller = new AbortController();
@@ -234,12 +277,17 @@ export default class HawAPIClient {
       // Handle any possible not 2XX code
       if (!response.ok) throw new Error('Code is not OK (200)');
 
-      return this._buildResult<T>(
+      const result = this._buildResult<T>(
         await response.json(),
         response.headers,
         response.status
       );
+
+      await this.cache.set(url, result);
+
+      return result;
     } catch (err) {
+      console.error(err);
       throw await this._handleError(response);
     }
   }
@@ -346,7 +394,7 @@ export default class HawAPIClient {
    * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less than 0
    */
   private _handlePage(page: number, increase: boolean): number | null {
-    if (page < 1) throw new Error('Page index cannot be zero or nagative');
+    if (page == null || page <= 0) return null;
     if (increase) page = page + 1;
     else page = page - 1;
     return page == 0 ? null : page;
