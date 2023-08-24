@@ -32,7 +32,7 @@ yarn add @hawapi/js-sdk
 ### Script
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hawapi/js-sdk@latest/dist/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hawapi/js-sdk/dist/index.umd.min.js"></script>
 ```
 
 ## Usage
@@ -52,7 +52,7 @@ console.log('HawAPI client: ', client);
 ### Javascript (ESM)
 
 ```js
-import { createClient } from '<REF>';
+import { createClient } from '<path>';
 const client = createClient();
 console.log('HawAPI client: ', client);
 ```

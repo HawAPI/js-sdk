@@ -16,11 +16,12 @@ const banner = `/*!
  * v${packageJSON.version}
  * ${packageJSON.name} (${today})
  * 
- * Website: https://hawapi.theproject.id
- * Docs: https://hawapi.theproject.id/docs
- * Github: https://github.com/HawAPI/js-sdk
+ * Website: https://hawapi.theproject.id/
+ * API Docs: https://hawapi.theproject.id/docs/
+ * Github (SDK): https://github.com/HawAPI/js-sdk
+ * TypeDoc: https://hawapi.github.io/js-sdk/v1/
  * 
- * (c) ${packageJSON.author.name}
+ * (c) ${packageJSON.author.name} (${packageJSON.author.username}) - ${packageJSON.author.url}
  * Released under the ${packageJSON.license} License.
  */
 `;
