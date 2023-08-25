@@ -9,14 +9,14 @@ class HawAPIOptions {
    *
    * @default 'https://hawapi.theproject.id/api'
    */
-  endpoint?: string = API_URL;
+  endpoint: string = API_URL;
 
   /**
    * The version of the API
    *
    * @default 'v1'
    */
-  version?: string = API_VERSION;
+  version: string = API_VERSION;
 
   /**
    * The language of items in request
@@ -25,21 +25,20 @@ class HawAPIOptions {
    *
    * @default 'en-US'
    */
-  language?: string = API_DEFAULT_LANG;
+  language: string;
 
   /**
    * The timeout of a response in milliseconds
    *
    * @default 10 * 1000 // (10 seconds)
    */
-  timeout?: number;
+  timeout: number;
 
   /**
    * The HawAPI token (JWT) \
-   * By default, all requests are made with **'ANONYMOUS'** tier with limit of **4 req/60s**
+   * By default, all requests are made with **'ANONYMOUS'** tier with limit of **8 req/60s**
    *
    * See more {@link https://hawapi.theproject.id/docs/guides/rate-limiting}
-   * @default 10 * 1000 // (10 seconds)
    */
   token?: string;
 
@@ -48,13 +47,14 @@ class HawAPIOptions {
    *
    * @default true
    */
-  inMemoryCache?: boolean = true;
+  inMemoryCache: boolean;
 
-  constructor(config: HawAPIOptions = {}) {
+  constructor(config: Partial<HawAPIOptions> = {}) {
     this.endpoint = API_URL;
     this.version = API_VERSION;
     this.language = API_DEFAULT_LANG;
     this.timeout = 10 * 1000;
+    this.inMemoryCache = true;
 
     if (config.endpoint) this.endpoint = config.endpoint;
 
@@ -66,7 +66,9 @@ class HawAPIOptions {
 
     if (config.token) this.token = config.token;
 
-    if (config.inMemoryCache) this.inMemoryCache = config.inMemoryCache;
+    if (config.inMemoryCache !== null && config.inMemoryCache !== undefined) {
+      this.inMemoryCache = config.inMemoryCache;
+    }
   }
 }
 
