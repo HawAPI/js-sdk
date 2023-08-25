@@ -1,8 +1,8 @@
 import HawAPIOptions from '../HawAPIOptions';
+import { buildResult, buildUrl } from '../Utils';
 import { InMemoryCacheManager } from '../cache';
 import { Filters, Pageable } from '../filters';
 import { RequestResult } from '../models';
-import { buildResult, buildUrl } from '../utils';
 
 export class Service {
   options: HawAPIOptions;
