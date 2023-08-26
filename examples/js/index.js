@@ -5,6 +5,6 @@ const client = HawAPI.createClient({
 });
 
 client
-  .getAll('actor')
+  .getAll('actors')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));

@@ -1,4 +1,5 @@
 import HawAPIOptions from './HawAPIOptions';
+import { isValidTargetOrThrow } from './Utils';
 import { InMemoryCacheManager } from './cache';
 import { EndpointType, Endpoints } from './enums/EndpointType';
 import { Filters, Pageable } from './filters';
@@ -136,6 +137,7 @@ export default class HawAPIClient {
     filters?: Filters | null,
     pageable?: Pageable | null
   ): Promise<RequestResult<T[]>> {
+    isValidTargetOrThrow(target);
     return this.service.fetch(`/${Endpoints[target]}`, filters, pageable);
   }
 
@@ -149,6 +151,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T>> {
+    isValidTargetOrThrow(target);
     return this.service.fetch(`/${Endpoints[target]}/${uuid}`);
   }
 
@@ -161,6 +164,7 @@ export default class HawAPIClient {
   public async getRandom<T extends BaseModel>(
     target: EndpointType
   ): Promise<RequestResult<T>> {
+    isValidTargetOrThrow(target);
     return this.service.fetch(`/${Endpoints[target]}/random`);
   }
 
@@ -174,6 +178,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T[]>> {
+    isValidTargetOrThrow(target);
     return this.service.fetch(`/${Endpoints[target]}/${uuid}/translations`);
   }
 
@@ -189,6 +194,7 @@ export default class HawAPIClient {
     uuid: string,
     language: string
   ): Promise<RequestResult<T>> {
+    isValidTargetOrThrow(target);
     return this.service.fetch(
       `${Endpoints[target]}/${uuid}/translations/${language}`
     );
@@ -204,6 +210,7 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T>> {
+    isValidTargetOrThrow(target);
     return this.service.fetch(
       `/${Endpoints[target]}/${uuid}/translations/random`
     );
@@ -217,7 +224,7 @@ export default class HawAPIClient {
   public async getAllSocials(
     uuid: string
   ): Promise<RequestResult<ActorSocialModel[]>> {
-    return this.service.fetch(`/${Endpoints.actor}/${uuid}/socials`);
+    return this.service.fetch(`/${Endpoints.actors}/${uuid}/socials`);
   }
 
   /**
@@ -230,7 +237,7 @@ export default class HawAPIClient {
     uuid: string,
     social: string
   ): Promise<RequestResult<ActorSocialModel>> {
-    return this.service.fetch(`/${Endpoints.actor}/${uuid}/socials/${social}`);
+    return this.service.fetch(`/${Endpoints.actors}/${uuid}/socials/${social}`);
   }
 
   /**
@@ -241,6 +248,6 @@ export default class HawAPIClient {
   public async getRandomSocial(
     uuid: string
   ): Promise<RequestResult<ActorSocialModel>> {
-    return this.service.fetch(`/${Endpoints.actor}/${uuid}/socials/random`);
+    return this.service.fetch(`/${Endpoints.actors}/${uuid}/socials/random`);
   }
 }

@@ -69,7 +69,7 @@ console.log('HawAPI client: ', client);
 
 ```js
 const result = client
-  .getAll('actor')
+  .getAll('actors')
   .then((data) => data)
   .catch((err) => console.error(err));
 ```
@@ -79,7 +79,7 @@ const result = client
 ```js
 let result;
 try {
-  result = await client.getAll('actor');
+  result = await client.getAll('actors');
 } catch (err) {
   console.error(err);
 }

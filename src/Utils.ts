@@ -6,8 +6,19 @@ import {
   API_HEADER_PAGE_TOTAL,
 } from './Constants';
 import HawAPIOptions from './HawAPIOptions';
+import { EndpointType, Endpoints } from './enums';
 import { Filters, Pageable } from './filters';
 import { RequestResult } from './models';
+
+/**
+ * Method to validate target
+ * @param target The target name
+ * @returns true if is a valid target or throw a error
+ */
+export function isValidTargetOrThrow(target: EndpointType): boolean {
+  if (Endpoints[target]) return true;
+  throw new Error(`Invalid target: ${target}`);
+}
 
 /**
  * Method to build the client response

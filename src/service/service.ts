@@ -21,16 +21,17 @@ export class Service {
 
   /**
    * Method to fetch from HawAPI all resources
-   * @param target
-   * @param filters
+   * @param baseUrl The base fetch url (e.g: target and uuid)
+   * @param filters The map containing all request filters
+   * @param filters The map containing all pageable filters (page, size, sort and order)
    * @returns An new {@link RequestResult} with body and header information
    */
   async fetch<T>(
-    target: string,
+    baseUrl: string,
     filters?: Filters | null,
     pageable?: Pageable | null
   ): Promise<RequestResult<T>> {
-    const url = buildUrl(target, this.options, filters, pageable);
+    const url = buildUrl(baseUrl, this.options, filters, pageable);
 
     const cache = await this.cache.get<T>(url);
     if (cache !== undefined) return { ...cache, cached: true };
