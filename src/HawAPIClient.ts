@@ -25,7 +25,7 @@ export default class HawAPIClient {
   request: RequestInit;
   service: Service;
 
-  constructor(options?: HawAPIOptions) {
+  constructor(options?: Partial<HawAPIOptions>) {
     this.options = new HawAPIOptions(options);
     this.cache = new InMemoryCacheManager(this.options.inMemoryCache!);
     this.headers = new Headers();
