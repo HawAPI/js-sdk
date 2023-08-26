@@ -25,6 +25,7 @@ test('it should overwrite default options', async () => {
     version: 'v2',
     language: 'pt-BR',
     timeout: 20000,
+    token: 'MYTOKEN',
     inMemoryCache: false,
   };
   const client = createClient(myOptions);
@@ -34,5 +35,6 @@ test('it should overwrite default options', async () => {
   expect(options.version).toBe('v2');
   expect(options.language).toBe('pt-BR');
   expect(options.timeout).toBe(20000);
+  expect(options.token).toBe(''); // Cannot expose token
   expect(options.inMemoryCache).toBe(false);
 });
