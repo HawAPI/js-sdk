@@ -79,7 +79,7 @@ const result = client
 ```js
 let result;
 try {
-  result = client.getAll('actor');
+  result = await client.getAll('actor');
 } catch (err) {
   console.error(err);
 }
