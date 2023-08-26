@@ -10,10 +10,14 @@ HawAPI SDK for JavaScript/TypeScript
 - [Installation](#installation)
   - [Npm](#npm)
   - [Yarn](#yarn)
-  - [Script](#script)
+  - [Cdn](#cdn)
 - [Usage](#usage)
-  - [Javascript (UMD)](#javascript-umd)
-  - [Javascript (ESM)](#javascript-esm)
+  - [Init](#init-client)
+    - [Javascript (UMD)](#javascript-umd)
+    - [Javascript (ESM)](#javascript-esm)
+  - [Error handling](#error-handling)
+    - [Then/Catch](#thencatch)
+    - [Try/Catch](#trycatch)
 
 ## Installation
 
@@ -29,7 +33,7 @@ npm install @hawapi/js-sdk
 yarn add @hawapi/js-sdk
 ```
 
-### Script
+### Cdn
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@hawapi/js-sdk/dist/index.umd.min.js"></script>
@@ -39,7 +43,9 @@ yarn add @hawapi/js-sdk
 
 - [See examples](./examples/)
 
-### Javascript (UMD)
+### Init client
+
+#### Javascript (UMD)
 
 ```js
 const client = HawAPI.createClient();
@@ -49,12 +55,34 @@ const client = HawAPI.createClient();
 console.log('HawAPI client: ', client);
 ```
 
-### Javascript (ESM)
+#### Javascript (ESM)
 
 ```js
 import { createClient } from '<path>';
 const client = createClient();
 console.log('HawAPI client: ', client);
+```
+
+### Error handling
+
+#### Then/Catch
+
+```js
+const result = client
+  .getAll('actor')
+  .then((data) => data)
+  .catch((err) => console.error(err));
+```
+
+#### Try/Catch
+
+```js
+let result;
+try {
+  result = client.getAll('actor');
+} catch (err) {
+  console.error(err);
+}
 ```
 
 ## Repository template

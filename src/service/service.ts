@@ -64,10 +64,10 @@ export class Service {
     } catch (err) {
       const isJson = response.headers.get('Content-Type') == 'application/json';
 
-      if (isJson) console.error(await response.json());
-      else console.error(await response.text());
+      let error = `${err}`;
+      if (isJson) error = await response.json();
 
-      return {};
+      throw error;
     }
   }
 }
