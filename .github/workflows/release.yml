@@ -20,7 +20,6 @@ jobs:
           node-version: 18
           cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
-          scope: '@hawapi'
 
       - name: Install dependencies
         run: yarn install
