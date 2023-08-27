@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Set up checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Set up yarn (Node 18)
         uses: actions/setup-node@v3
@@ -30,16 +28,3 @@ jobs:
         run: yarn run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      ## Docs
-
-      - name: Build docs
-        run: yarn build:doc
-
-      - run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - uses: kiprasmel/git-publish-generated-branch@v0
-        with:
-          ARGS: '--dir "docs" --branch "ph-pages"'
