@@ -27,7 +27,7 @@ jobs:
       ## Test, build and publish
 
       - name: Test, build and publish package
-        run: yarn publish
+        run: yarn run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
