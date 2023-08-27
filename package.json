@@ -9,6 +9,10 @@
     "email": "contact@lucasjosino.com",
     "url": "https://lucasjosino.com"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "homepage": "https://github.com/HawAPI/",
   "bugs": {
     "url": "https://github.com/HawAPI/js-sdk/issues",
@@ -22,9 +26,9 @@
     "stranger-things",
     "stranger-things-api"
   ],
+  "types": "dist/types/index.d.ts",
   "cdn": "dist/index.umd.min.js",
   "main": "dist/index.min.js",
-  "types": "dist/types/index.d.ts",
   "unpkg": "dist/index.umd.min.js",
   "module": "dist/index.esm.min.js",
   "jsdelivr": "dist/index.umd.min.js",
