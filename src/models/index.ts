@@ -15,5 +15,6 @@ export * from './CharacterModel';
 export * from './EpisodeModel';
 export * from './GameModel';
 export * from './LocationModel';
+export * from './OverviewModel';
 export * from './SeasonModel';
 export * from './SoundtrackModel';

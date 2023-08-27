@@ -1,11 +1,11 @@
 export const Endpoints = {
-  actor: 'actors',
-  character: 'characters',
-  episode: 'episodes',
-  game: 'games',
-  location: 'locations',
-  season: 'seasons',
-  soundtrack: 'soundtracks',
+  actors: 'actors',
+  characters: 'characters',
+  episodes: 'episodes',
+  games: 'games',
+  locations: 'locations',
+  seasons: 'seasons',
+  soundtracks: 'soundtracks',
 };
 
 export type EndpointType = keyof typeof Endpoints;

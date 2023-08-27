@@ -1,13 +1,7 @@
-import {
-  API_HEADER_CONTENT_LANGUAGE,
-  API_HEADER_ITEM_TOTAL,
-  API_HEADER_PAGE_INDEX,
-  API_HEADER_PAGE_SIZE,
-  API_HEADER_PAGE_TOTAL,
-} from './Constants';
 import HawAPIOptions from './HawAPIOptions';
+import { isValidTargetOrThrow } from './Utils';
+import { InMemoryCacheManager } from './cache';
 import { EndpointType, Endpoints } from './enums/EndpointType';
-import { ResponseError } from './exceptions/ResponseError';
 import { Filters, Pageable } from './filters';
 import {
   APIInfoModel,
@@ -16,17 +10,25 @@ import {
   BaseTranslation,
   RequestResult,
 } from './models';
+import { Service } from './service';
 
 /**
- * The HawAPI client.
+ * The [HawAPI](https://github.com/HawAPI/HawAPI) js/ts client.
+ *
+ * - [TypeDoc](https://hawapi.github.io/js-sdk/v1/)
+ * - [Github](https://github.com/HawAPI/js-sdk/)
+ * - [Examples (Github)](https://github.com/HawAPI/js-sdk/examples/)
  */
 export default class HawAPIClient {
   options: HawAPIOptions;
+  cache: InMemoryCacheManager;
   headers: HeadersInit;
   request: RequestInit;
+  service: Service;
 
-  constructor(options?: HawAPIOptions) {
+  constructor(options?: Partial<HawAPIOptions>) {
     this.options = new HawAPIOptions(options);
+    this.cache = new InMemoryCacheManager(this.options.inMemoryCache!);
     this.headers = new Headers();
     this.request = {
       method: 'GET',
@@ -39,6 +41,8 @@ export default class HawAPIClient {
 
     this.headers.set('Content-Type', 'application/json');
     this.request.headers = this.headers;
+
+    this.service = new Service(this.options, this.cache, this.request);
   }
 
   /**
@@ -77,6 +81,51 @@ export default class HawAPIClient {
   }
 
   /**
+   * Method to clear all cached data
+   * @returns The count of all cleaned data
+   */
+  public async clearCache(): Promise<number> {
+    return this.cache.clear();
+  }
+
+  /**
+   * Method to get all keys of cached data
+   * @returns All cached keys
+   */
+  async cacheKeys(): Promise<IterableIterator<string>> {
+    return this.cache.keys();
+  }
+
+  /**
+   * Method to get the size of cached data
+   * @returns The count of all cached data
+   */
+  async cacheSize(): Promise<number> {
+    return this.cache.size();
+  }
+
+  /**
+   * Method to remove specific cache data
+   * @param key The cache key
+   * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
+   */
+  async removeCache(key: string): Promise<boolean> {
+    return this.cache.remove(key);
+  }
+
+  /**
+   * Method that get the API overview
+   * @param target The target name
+   * @param language The result language
+   * @returns An new {@link RequestResult} with overview
+   */
+  public async getOverview<OverviewModel>(
+    language: string
+  ): Promise<RequestResult<OverviewModel>> {
+    return this.service.fetch(`/overview`, { language }, null);
+  }
+
+  /**
    * Method that get all items
    * @param target The target name
    * @param filters
@@ -88,7 +137,8 @@ export default class HawAPIClient {
     filters?: Filters | null,
     pageable?: Pageable | null
   ): Promise<RequestResult<T[]>> {
-    return this._fetch(`/${Endpoints[target]}`, filters, pageable);
+    isValidTargetOrThrow(target);
+    return this.service.fetch(`/${Endpoints[target]}`, filters, pageable);
   }
 
   /**
@@ -101,7 +151,8 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T>> {
-    return this._fetch(`/${Endpoints[target]}/${uuid}`);
+    isValidTargetOrThrow(target);
+    return this.service.fetch(`/${Endpoints[target]}/${uuid}`);
   }
 
   /**
@@ -113,7 +164,8 @@ export default class HawAPIClient {
   public async getRandom<T extends BaseModel>(
     target: EndpointType
   ): Promise<RequestResult<T>> {
-    return this._fetch(`/${Endpoints[target]}/random`);
+    isValidTargetOrThrow(target);
+    return this.service.fetch(`/${Endpoints[target]}/random`);
   }
 
   /**
@@ -126,7 +178,8 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T[]>> {
-    return this._fetch(`/${Endpoints[target]}/${uuid}/translations`);
+    isValidTargetOrThrow(target);
+    return this.service.fetch(`/${Endpoints[target]}/${uuid}/translations`);
   }
 
   /**
@@ -141,7 +194,10 @@ export default class HawAPIClient {
     uuid: string,
     language: string
   ): Promise<RequestResult<T>> {
-    return this._fetch(`${Endpoints[target]}/${uuid}/translations/${language}`);
+    isValidTargetOrThrow(target);
+    return this.service.fetch(
+      `${Endpoints[target]}/${uuid}/translations/${language}`
+    );
   }
 
   /**
@@ -154,7 +210,10 @@ export default class HawAPIClient {
     target: EndpointType,
     uuid: string
   ): Promise<RequestResult<T>> {
-    return this._fetch(`/${Endpoints[target]}/${uuid}/translations/random`);
+    isValidTargetOrThrow(target);
+    return this.service.fetch(
+      `/${Endpoints[target]}/${uuid}/translations/random`
+    );
   }
 
   /**
@@ -165,7 +224,7 @@ export default class HawAPIClient {
   public async getAllSocials(
     uuid: string
   ): Promise<RequestResult<ActorSocialModel[]>> {
-    return this._fetch(`/${Endpoints.actor}/${uuid}/socials`);
+    return this.service.fetch(`/${Endpoints.actors}/${uuid}/socials`);
   }
 
   /**
@@ -178,7 +237,7 @@ export default class HawAPIClient {
     uuid: string,
     social: string
   ): Promise<RequestResult<ActorSocialModel>> {
-    return this._fetch(`/${Endpoints.actor}/${uuid}/socials/${social}`);
+    return this.service.fetch(`/${Endpoints.actors}/${uuid}/socials/${social}`);
   }
 
   /**
@@ -189,151 +248,6 @@ export default class HawAPIClient {
   public async getRandomSocial(
     uuid: string
   ): Promise<RequestResult<ActorSocialModel>> {
-    return this._fetch(`/${Endpoints.actor}/${uuid}/socials/random`);
-  }
-
-  /**
-   * Method to fetch from HawAPI all resources
-   * @param target
-   * @param filters
-   * @returns An new {@link RequestResult} with body and header information
-   */
-  private async _fetch<T>(
-    target: string,
-    filters?: Filters | null,
-    pageable?: Pageable | null
-  ): Promise<RequestResult<T>> {
-    const url = this._getUrl(target, filters, pageable);
-
-    // Setup timeout
-    let timeout;
-    const controller = new AbortController();
-    if (this.options.timeout) {
-      timeout = setTimeout(() => controller.abort(), this.options.timeout);
-    }
-
-    const response = await fetch(url, {
-      ...this.request,
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeout);
-    try {
-      // Handle any possible not 2XX code
-      if (!response.ok) throw new Error('Code is not OK (200)');
-
-      return this._buildResult<T>(
-        await response.json(),
-        response.headers,
-        response.status
-      );
-    } catch (err) {
-      throw await this._handleError(response);
-    }
-  }
-
-  /**
-   * Method to handle any request error
-   * @param err The request error response
-   */
-  private async _handleError(err: Response): Promise<ResponseError> {
-    const isJson = err.headers.get('Content-Type') == 'application/json';
-
-    if (isJson) return (await err.json()) as ResponseError;
-
-    throw new Error(await err.text());
-  }
-
-  /**
-   * Method to create the url using API:
-   * - Url
-   * - Version
-   * - Target
-   * - Params
-   *   - Filters
-   *   - Pageable
-   *
-   * @param target
-   * @param filters
-   * @param pageable
-   * @returns A complete url path with all params and filters
-   */
-  private _getUrl(
-    target: string,
-    filters?: Filters | null,
-    pageable?: Pageable | null
-  ) {
-    let params = '?';
-
-    // Get all filters names and values
-    if (filters) {
-      for (const key in filters) {
-        params += `${key}=${filters[key]}&`;
-      }
-    }
-
-    // Define the page, sort and order
-    if (pageable) {
-      if (pageable.page) params += `page=${pageable.page}&`;
-      if (pageable.size) params += `size=${pageable.size}&`;
-
-      // 'Order' can only be applied when 'sort' is defined
-      if (pageable.sort) {
-        if (pageable.order) {
-          params += `sort=${pageable.sort},${pageable.order}&`;
-        } else {
-          params += `sort=${pageable.sort}&`;
-        }
-      }
-    }
-
-    params = params.slice(0, -1);
-    return this.options.endpoint + `/${this.options.version}${target}${params}`;
-  }
-
-  /**
-   * Method to build the client response
-   * @param body The body response from API request
-   * @param headers The response header
-   * @param status The response status code
-   * @returns An new {@link RequestResult} with all required information
-   * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less then 0
-   */
-  private _buildResult<T>(
-    body: T,
-    headers: Headers,
-    status: number
-  ): RequestResult<T> {
-    const page = headers.get(API_HEADER_PAGE_INDEX);
-    const page_size = headers.get(API_HEADER_PAGE_SIZE);
-    const page_total = headers.get(API_HEADER_PAGE_TOTAL);
-    const item_total = headers.get(API_HEADER_ITEM_TOTAL);
-    const language = headers.get(API_HEADER_CONTENT_LANGUAGE);
-
-    return {
-      page: page ? Number(page) : null,
-      page_size: page_size ? Number(page_size) : null,
-      page_total: page_total ? Number(page_total) : null,
-      item_size: item_total ? Number(item_total) : null,
-      next_page: page ? this._handlePage(Number(page), true) : null,
-      prev_page: page ? this._handlePage(Number(page), false) : null,
-      language: language || null,
-      status: status,
-      data: body,
-    };
-  }
-
-  /**
-   * Method to handle the next/prev page index
-   * @param page The current page index
-   * @param increase Determine if page index will be increase or decrease
-   * @returns Updated page index
-   * @throws An error if page index ({@link API_HEADER_PAGE_INDEX}) is less than 0
-   */
-  private _handlePage(page: number, increase: boolean): number {
-    if (page < 0) throw new Error('Page index cannot be nagative');
-    if (increase && page >= 0) return page + 1;
-    if (!increase && page > 0) return page - 1;
-    return page;
+    return this.service.fetch(`/${Endpoints.actors}/${uuid}/socials/random`);
   }
 }

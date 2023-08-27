@@ -9,14 +9,14 @@ export class Pageable {
    *
    * @default 0
    */
-  page?: number = 0;
+  page?: number;
 
   /**
    * The size of items inside each page
    *
    * @default 10
    */
-  size?: number = 10;
+  size?: number;
 
   /**
    * The sort of items inside each page
@@ -34,11 +34,12 @@ export class Pageable {
    *
    * @default 'asc'
    */
-  order?: OrderType = 'asc';
+  order?: OrderType;
 
-  constructor(pageable: Pageable = {}) {
+  constructor(pageable: Partial<Pageable>) {
     this.page = 0;
     this.size = 10;
+    this.order = 'asc';
 
     if (pageable.page) this.page = pageable.page;
 
