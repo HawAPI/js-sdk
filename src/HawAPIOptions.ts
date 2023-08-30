@@ -19,13 +19,22 @@ class HawAPIOptions {
   version: string = API_VERSION;
 
   /**
-   * The language of items in request
+   * The language of items for all requests
    *
    * **Note: This value can be overwritten later**
    *
    * @default 'en-US'
    */
   language: string;
+
+  /**
+   * The size of items for all requests
+   *
+   * **Note: This value can be overwritten later**
+   *
+   * @default 10
+   */
+  size: number;
 
   /**
    * The timeout of a response in milliseconds
@@ -55,12 +64,15 @@ class HawAPIOptions {
     this.language = API_DEFAULT_LANG;
     this.timeout = 10 * 1000;
     this.inMemoryCache = true;
+    this.size = 10;
 
     if (config.endpoint) this.endpoint = config.endpoint;
 
     if (config.version) this.version = config.version;
 
     if (config.language) this.language = config.language;
+
+    if (config.size) this.size = config.size;
 
     if (config.timeout) this.timeout = config.timeout;
 
