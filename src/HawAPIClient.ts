@@ -120,9 +120,9 @@ export default class HawAPIClient {
    * @returns An new {@link RequestResult} with overview
    */
   public async getOverview<OverviewModel>(
-    language: string
+    language?: string
   ): Promise<RequestResult<OverviewModel>> {
-    return this.service.fetch(`/overview`, { language }, null);
+    return this.service.fetch(`/overview`, { language: language }, null);
   }
 
   /**
