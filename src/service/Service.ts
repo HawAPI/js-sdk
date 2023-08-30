@@ -59,9 +59,8 @@ export class Service {
         response.status
       );
 
-      await this.cache.set(url, result);
-
-      return { ...result, cached: true };
+      const cached = await this.cache.set(url, result);
+      return { ...result, cached };
     } catch (err) {
       const isJson = response.headers.get('Content-Type') == 'application/json';
 
