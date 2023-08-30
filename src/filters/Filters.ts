@@ -5,5 +5,5 @@
  * See more: {@link https://hawapi.theproject.id/docs/guides/filters}
  */
 export type Filters = {
-  [key: string]: string;
+  [key: string]: string | undefined | null;
 };

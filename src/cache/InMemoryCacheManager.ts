@@ -37,11 +37,14 @@ export class InMemoryCacheManager {
    *
    * @param key The cache key
    * @param value The value to be cached
+   * @returns true if {@link useCache} is true and the cache was added or false if {@link useCache} is false
    */
-  async set(key: string, value: RequestResult<unknown>): Promise<void> {
+  async set(key: string, value: RequestResult<unknown>): Promise<boolean> {
     if (this.useCache) {
-      this.storage.set(key, value);
+      return this.storage.set(key, value) !== undefined;
     }
+
+    return false;
   }
 
   /**

@@ -34,7 +34,7 @@ export class Service {
     const url = buildUrl(baseUrl, this.options, filters, pageable);
 
     const cache = await this.cache.get<T>(url);
-    if (cache !== undefined) return { ...cache, cached: true };
+    if (cache !== undefined) return { cached: true, ...cache };
 
     // Setup timeout
     let timeout;
@@ -59,9 +59,8 @@ export class Service {
         response.status
       );
 
-      await this.cache.set(url, result);
-
-      return { ...result, cached: true };
+      const cached = await this.cache.set(url, result);
+      return { cached, ...result };
     } catch (err) {
       const isJson = response.headers.get('Content-Type') == 'application/json';
 

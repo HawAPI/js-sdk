@@ -3,6 +3,14 @@
   "name": "HawAPI",
   "plugin": ["@mxssfd/typedoc-theme"],
   "theme": "my-theme",
-  "readme": "none",
-  "tsconfig": "./tsconfig.bundle.json"
+  "readme": "./README.md",
+  "tsconfig": "./tsconfig.bundle.json",
+  "includeVersion": true,
+  "navigationLinks": {
+    "Github": "https://github.com/HawAPI/",
+    "Website": "https://hawapi.theproject.id/"
+  },
+  "sidebarLinks": {
+    "API Docs": "https://hawapi.theproject.id/docs/"
+  }
 }

@@ -40,13 +40,13 @@ export function buildResult<T>(
   const language = headers.get(API_HEADER_CONTENT_LANGUAGE);
 
   return {
-    page: Number(page) || null,
-    page_size: Number(page_size) || null,
-    page_total: Number(page_total) || null,
-    item_size: Number(item_total) || null,
-    next_page: handlePagination(Number(page), true) || null,
-    prev_page: handlePagination(Number(page), false) || null,
-    language: language || null,
+    page: Number(page) || undefined,
+    page_size: Number(page_size) || undefined,
+    page_total: Number(page_total) || undefined,
+    item_size: Number(item_total) || undefined,
+    next_page: handlePagination(Number(page), true) || undefined,
+    prev_page: handlePagination(Number(page), false) || undefined,
+    language: language || undefined,
     status: status,
     data: body,
   };
@@ -89,33 +89,56 @@ export function buildUrl(
   filters?: Filters | null,
   pageable?: Pageable | null
 ) {
-  let params = '?';
+  let params: string[] = [];
+
+  if (options.language) params.push(`language=${options.language}`);
+  if (options.size) params.push(`size=${options.size}`);
 
   // Get all filters names and values
   if (filters) {
     for (const key in filters) {
       const value = filters[key];
       if (value !== undefined && value !== null) {
-        params += `${key}=${value}&`;
+        params = pushOrOverwrite(params, key, value);
       }
     }
   }
 
   // Define the page, sort and order
   if (pageable) {
-    if (pageable.page) params += `page=${pageable.page}&`;
-    if (pageable.size) params += `size=${pageable.size}&`;
+    if (pageable.page) params = pushOrOverwrite(params, 'page', pageable.page);
+    if (pageable.size) params = pushOrOverwrite(params, 'size', pageable.size);
 
     // 'Order' can only be applied when 'sort' is defined
     if (pageable.sort) {
       if (pageable.order) {
-        params += `sort=${pageable.sort},${pageable.order}&`;
+        params = pushOrOverwrite(
+          params,
+          'sort',
+          `${pageable.sort},${pageable.order}`
+        );
       } else {
-        params += `sort=${pageable.sort}&`;
+        params = pushOrOverwrite(params, 'sort', pageable.sort);
       }
     }
   }
 
-  params = params.slice(0, -1);
-  return options.endpoint + `/${options.version}${target}${params}`;
+  const stringOfParams = params.length !== 0 ? '?' + params.join('&') : '';
+  return options.endpoint + `/${options.version}${target}${stringOfParams}`;
+}
+
+/**
+ * Method to push new key/value or overwrite existing one
+ * @param params A array of strings
+ * @param key The param name
+ * @param value The param value
+ * @returns A array of strings with new key/value or overwritten value
+ */
+function pushOrOverwrite(params: string[], key: string, value: unknown) {
+  const param = params.find((e) => e.includes(key));
+
+  if (param !== undefined) params[params.indexOf(param)] = `${key}=${value}`;
+  else params.push(`${key}=${value}`);
+
+  return params;
 }
