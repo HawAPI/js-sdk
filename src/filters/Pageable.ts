@@ -1,15 +1,9 @@
-import { OrderType } from '../../enums';
-import { PageableBuilder } from './PageableBuilder';
+import { OrderType } from '../enums';
 
 /**
  * The HawAPI page options.
  */
 export class Pageable {
-  /**
-   * Pageable builder
-   */
-  static Builder = PageableBuilder;
-
   /**
    * The request page
    *
@@ -55,4 +49,39 @@ export class Pageable {
 
     if (pageable.order) this.order = pageable.order;
   }
+
+  /**
+   * A fluent builder for configuring Pageable
+   */
+  static Builder = class PageableBuilder {
+    private pageable: Pageable = new Pageable({});
+
+    page(value: number) {
+      this.pageable.page = value;
+      return this;
+    }
+
+    size(value: number) {
+      this.pageable.size = value;
+      return this;
+    }
+
+    order(value: OrderType) {
+      this.pageable.order = value;
+      return this;
+    }
+
+    sort(value: string) {
+      this.pageable.sort = value;
+      return this;
+    }
+
+    /**
+     * Converts the pageable builder into {@link Pageable}
+     * @returns A new {@link Pageable}
+     */
+    build(): Pageable {
+      return new Pageable(this.pageable);
+    }
+  };
 }
