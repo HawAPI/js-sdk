@@ -1,3 +1,4 @@
+import HawAPIOptions from '../src/HawAPIOptions';
 import { buildResult, buildUrl, handlePagination } from '../src/Utils';
 
 describe('Tests for Utils#buildResult', () => {
@@ -101,13 +102,12 @@ describe('Tests for Utils#handlePagination', () => {
 
 describe('Tests for Utils#buildUrl', () => {
   const URL = 'https://hawapi.theproject.id/api';
-  const options = {
+  const options = new HawAPIOptions({
     endpoint: 'https://hawapi.theproject.id/api',
     version: 'v1',
-    language: 'en-US',
     timeout: 10000,
     inMemoryCache: true,
-  };
+  });
 
   test('it should create correct url without params', async () => {
     const url = buildUrl('/actors', options, null, null);
@@ -124,6 +124,21 @@ describe('Tests for Utils#buildUrl', () => {
     );
 
     expect(url).toBe(`${URL}/v1/actors?language=pt-BR&first_name=Lorem`);
+  });
+
+  test('it should create correct url overwritten params', async () => {
+    const newOptions = new HawAPIOptions(options);
+    newOptions.language = 'fr-FR';
+    newOptions.size = 15;
+
+    const url = buildUrl(
+      '/actors',
+      newOptions,
+      { language: 'pt-BR', size: '10' },
+      null
+    );
+
+    expect(url).toBe(`${URL}/v1/actors?language=pt-BR&size=10`);
   });
 
   test('it should create correct url with pageable', async () => {

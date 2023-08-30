@@ -13,7 +13,8 @@ test('it use default client options', async () => {
 
   expect(options.endpoint).toBe('https://hawapi.theproject.id/api');
   expect(options.version).toBe('v1');
-  expect(options.language).toBe('en-US');
+  expect(options.language).toBe(undefined);
+  expect(options.size).toBe(undefined);
   expect(options.timeout).toBe(10000);
   expect(options.token).toBe('');
   expect(options.inMemoryCache).toBe(true);

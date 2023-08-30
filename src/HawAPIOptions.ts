@@ -1,4 +1,4 @@
-import { API_DEFAULT_LANG, API_URL, API_VERSION } from './Constants';
+import { API_URL, API_VERSION } from './Constants';
 
 /**
  * The HawAPI options configuration.
@@ -25,7 +25,7 @@ class HawAPIOptions {
    *
    * @default 'en-US'
    */
-  language: string;
+  language?: string;
 
   /**
    * The size of items for all requests
@@ -34,7 +34,7 @@ class HawAPIOptions {
    *
    * @default 10
    */
-  size: number;
+  size?: number;
 
   /**
    * The timeout of a response in milliseconds
@@ -61,10 +61,8 @@ class HawAPIOptions {
   constructor(config: Partial<HawAPIOptions> = {}) {
     this.endpoint = API_URL;
     this.version = API_VERSION;
-    this.language = API_DEFAULT_LANG;
     this.timeout = 10 * 1000;
     this.inMemoryCache = true;
-    this.size = 10;
 
     if (config.endpoint) this.endpoint = config.endpoint;
 
