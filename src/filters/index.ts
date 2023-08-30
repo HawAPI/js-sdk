@@ -1,2 +1,2 @@
 export * from './Filters';
-export * from './Pageable';
+export * from './pageable/Pageable';

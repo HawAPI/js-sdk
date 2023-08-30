@@ -1,9 +1,15 @@
-import { OrderType } from '../enums';
+import { OrderType } from '../../enums';
+import { PageableBuilder } from './PageableBuilder';
 
 /**
  * The HawAPI page options.
  */
 export class Pageable {
+  /**
+   * Pageable builder
+   */
+  static Builder = PageableBuilder;
+
   /**
    * The request page
    *
