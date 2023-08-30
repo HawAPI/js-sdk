@@ -40,13 +40,13 @@ export function buildResult<T>(
   const language = headers.get(API_HEADER_CONTENT_LANGUAGE);
 
   return {
-    page: Number(page) || null,
-    page_size: Number(page_size) || null,
-    page_total: Number(page_total) || null,
-    item_size: Number(item_total) || null,
-    next_page: handlePagination(Number(page), true) || null,
-    prev_page: handlePagination(Number(page), false) || null,
-    language: language || null,
+    page: Number(page) || undefined,
+    page_size: Number(page_size) || undefined,
+    page_total: Number(page_total) || undefined,
+    item_size: Number(item_total) || undefined,
+    next_page: handlePagination(Number(page), true) || undefined,
+    prev_page: handlePagination(Number(page), false) || undefined,
+    language: language || undefined,
     status: status,
     data: body,
   };

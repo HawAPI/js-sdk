@@ -2,7 +2,7 @@ import HawAPIOptions from '../src/HawAPIOptions';
 import { buildResult, buildUrl, handlePagination } from '../src/Utils';
 
 describe('Tests for Utils#buildResult', () => {
-  test('it should return correct request result for multiple results)', async () => {
+  test('it should return correct request result for multiple results', async () => {
     const headers = new Headers({
       'Content-Type': 'application/json',
       'Content-Language': 'en-US',
@@ -31,7 +31,7 @@ describe('Tests for Utils#buildResult', () => {
     expect(res.item_size).not.toBe('13');
     expect(res.next_page).toBe(2);
     expect(res.next_page).not.toBe('2');
-    expect(res.prev_page).toBeNull();
+    expect(res.prev_page).toBeUndefined();
     expect(res.language).toBe('en-US');
     expect(res.status).toBe(200);
     expect(res.data).toHaveLength(1);
@@ -50,12 +50,12 @@ describe('Tests for Utils#buildResult', () => {
     };
 
     const res = buildResult(body, headers, 200);
-    expect(res.page).toBeNull();
-    expect(res.page_size).toBeNull();
-    expect(res.page_total).toBeNull();
-    expect(res.item_size).toBeNull();
-    expect(res.next_page).toBeNull();
-    expect(res.prev_page).toBeNull();
+    expect(res.page).toBeUndefined();
+    expect(res.page_size).toBeUndefined();
+    expect(res.page_total).toBeUndefined();
+    expect(res.item_size).toBeUndefined();
+    expect(res.next_page).toBeUndefined();
+    expect(res.prev_page).toBeUndefined();
     expect(res.language).toBe('en-US');
     expect(res.status).toBe(200);
     expect(res.data).not.toBeNull();
