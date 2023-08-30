@@ -39,11 +39,12 @@
   "exports": {
     ".": [
       {
+        "types": "./dist/types/index.d.ts",
         "import": "./dist/index.min.mjs",
         "require": "./dist/index.min.cjs",
         "default": "./dist/index.min.js"
       },
-      "./dist/index.js"
+      "./dist/index.min.js"
     ]
   },
   "scripts": {
