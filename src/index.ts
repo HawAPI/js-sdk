@@ -40,6 +40,6 @@ export * from './models';
  * @param options Endpoint, version, token, etc.. configurations
  * @returns A new HawAPI Client
  */
-export const createClient = (options?: HawAPIOptions) => {
+export const createClient = (options?: Partial<HawAPIOptions>) => {
   return new HawAPIClient(options);
 };
