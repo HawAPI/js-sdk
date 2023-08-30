@@ -1,7 +1,7 @@
 import HawAPIOptions from './HawAPIOptions';
 import { isValidTargetOrThrow } from './Utils';
 import { InMemoryCacheManager } from './cache';
-import { EndpointType, Endpoints } from './enums/EndpointType';
+import { EndpointType, Endpoints } from './enums';
 import { Filters, Pageable } from './filters';
 import {
   APIInfoModel,
@@ -71,13 +71,20 @@ export default class HawAPIClient {
 
   /**
    * Method to get all client options
-   * @returns
+   * @returns The current {@link HawAPIOptions} (without token)
    */
   public async getOptions(): Promise<HawAPIOptions> {
     return {
       ...this.options,
       token: '',
     };
+  }
+
+  /**
+   * Method to define new language into client options
+   */
+  public async setLanguage(language: string): Promise<void> {
+    this.options.language = language;
   }
 
   /**
