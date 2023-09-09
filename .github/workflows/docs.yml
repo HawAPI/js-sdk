@@ -33,6 +33,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - uses: kiprasmel/git-publish-generated-branch@v0
+      - uses: LucJosin/git-publish-generated-branch@master
         with:
           ARGS: '--dir "docs" --branch "ph-pages"'
