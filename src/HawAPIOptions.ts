@@ -45,7 +45,7 @@ class HawAPIOptions {
 
   /**
    * The HawAPI token (JWT) \
-   * By default, all requests are made with **'ANONYMOUS'** tier with limit of **8 req/60s**
+   * By default, all requests are made with **'ANONYMOUS'** tier with limit of **16 req/60s**
    *
    * See more {@link https://hawapi.theproject.id/docs/guides/rate-limiting}
    */
