@@ -2,7 +2,7 @@
   "name": "@hawapi/js-sdk",
   "packageManager": "yarn@4.0.1",
   "description": "HawAPI SDK for JavaScript",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "repository": "git@github.com:HawAPI/js-sdk.git",
   "author": {
     "name": "Lucas Josino",
