@@ -1,9 +1,12 @@
 import {
   API_HEADER_CONTENT_LANGUAGE,
+  API_HEADER_CONTENT_LENGTH,
+  API_HEADER_ETAG,
   API_HEADER_ITEM_TOTAL,
   API_HEADER_PAGE_INDEX,
   API_HEADER_PAGE_SIZE,
   API_HEADER_PAGE_TOTAL,
+  API_HEADER_RATE_LIMIT_REMAINING,
 } from './Constants';
 import HawAPIOptions from './HawAPIOptions';
 import { EndpointType, Endpoints } from './enums';
@@ -39,6 +42,10 @@ export function buildResult<T>(
   const item_total = headers.get(API_HEADER_ITEM_TOTAL);
   const language = headers.get(API_HEADER_CONTENT_LANGUAGE);
 
+  const etag = headers.get(API_HEADER_ETAG)!;
+  const length = headers.get(API_HEADER_CONTENT_LENGTH)!;
+  const remaining = headers.get(API_HEADER_RATE_LIMIT_REMAINING)!;
+
   return {
     page: Number(page) || undefined,
     page_size: Number(page_size) || undefined,
@@ -48,6 +55,11 @@ export function buildResult<T>(
     prev_page: handlePagination(Number(page), false) || undefined,
     language: language || undefined,
     status: status,
+    quota: {
+      remaining: Number(remaining),
+    },
+    length: Number(length),
+    etag,
     data: body,
   };
 }
