@@ -14,6 +14,11 @@ export const API_VERSION = 'v1';
 export const API_DEFAULT_LANG = 'en-US';
 
 /**
+ * The API rate limit remaining
+ */
+export const API_HEADER_RATE_LIMIT_REMAINING = 'X-Rate-Limit-Remaining';
+
+/**
  * The API page index header
  */
 export const API_HEADER_PAGE_INDEX = 'X-Pagination-Page-Index';
@@ -37,3 +42,13 @@ export const API_HEADER_ITEM_TOTAL = 'X-Pagination-Item-Total';
  * The API language header
  */
 export const API_HEADER_CONTENT_LANGUAGE = 'Content-Language';
+
+/**
+ * The API content length
+ */
+export const API_HEADER_CONTENT_LENGTH = 'Content-Length';
+
+/**
+ * The API content etag
+ */
+export const API_HEADER_ETAG = 'ETag';

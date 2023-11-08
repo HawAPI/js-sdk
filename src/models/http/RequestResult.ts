@@ -1,3 +1,7 @@
+export interface Quota {
+  remaining?: number;
+}
+
 /**
  * Formatted result from request
  */
@@ -43,6 +47,21 @@ export interface RequestResult<T> {
    * The request status code
    */
   status: number;
+
+  /**
+   * The quota status
+   */
+  quota: Quota;
+
+  /**
+   * The etag value for the data
+   */
+  etag: string;
+
+  /**
+   * The total content size/length
+   */
+  length: number;
 
   /**
    * Determine if data is from cache
