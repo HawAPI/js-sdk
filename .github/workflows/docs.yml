@@ -29,10 +29,12 @@ jobs:
       - name: Build docs
         run: yarn build:doc
 
-      - run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - uses: LucJosin/publish-orphan-branch@main
+      - name: Deploy docs
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          ARGS: '--dir "docs" --branch "ph-pages"'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: ph-pages
+          enable_jekyll: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
