@@ -14,7 +14,7 @@ export interface OverviewModel extends BaseModel {
   title: string;
   description: string;
   language: string;
-  languages: string;
+  languages: string[];
   creators: string;
   data_count: DataCount;
 }
